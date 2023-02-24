@@ -27,26 +27,51 @@ function clearInput(){
 //Adding items to the list
 itemForm.addEventListener('submit',(e)=>{
     e.preventDefault();
-    const li = document.createElement('li');
+   
     if(itemInput.value === ''){
         alert('enter avalid Item')
         return; 
     }else{
-        li.innerText = itemInput.value;
-        const button = document.createElement('button');
-        button.className ="remove-item btn-link text-red";
-        const icon = document.createElement('i');
-        icon.className = 'fa-solid fa-xmark'
-       
-        button.appendChild(icon)
-        li.appendChild(button)
-        itemList.appendChild(li)
+      addToDom();
+      addToStorage(itemInput.value);
       clearInput();
       CheckUI();
     
     }
       
 })
+//Add to Dom
+function addToDom(){
+    const li = document.createElement('li');
+    li.innerText = itemInput.value;
+    const button = document.createElement('button');
+    button.className ="remove-item btn-link text-red";
+    const icon = document.createElement('i');
+    icon.className = 'fa-solid fa-xmark'
+   
+    button.appendChild(icon)
+    li.appendChild(button)
+    itemList.appendChild(li)
+}
+
+// Add to Local strorage
+
+function addToStorage(item){
+ //checking for the xisting values in LS
+ let itemsStorage;
+  if(localStorage.getItem('items')===null){
+      itemsStorage = [];
+  }else{
+      itemsStorage = JSON.parse(localStorage.getItem('items'))
+  }
+  itemsStorage.push(item);
+  //Convert to Json string and set to local storage
+  localStorage.setItem('items',JSON.stringify(itemsStorage))
+}
+
+
+
+
 
 //Another way to delete 
 /*function deleteMe(item){
@@ -102,3 +127,5 @@ function searchItem(e){
 }
 
 itemfilter.addEventListener('input',searchItem)
+
+
