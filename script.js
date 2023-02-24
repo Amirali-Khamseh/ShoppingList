@@ -1,9 +1,10 @@
+//DOM queries
 const itemForm = document.querySelector('#item-form');
 const itemInput =  document.querySelector('#item-input');
 const itemList =  document.querySelector('#item-list');
 const itemClear =  document.querySelector('#clear');
 
-
+//Checking the state of the program for displaying or hiding the filter and clear button
 function CheckUI(){
     const list = itemList.querySelectorAll('li');
     const filter = document.querySelector('#filter');
@@ -22,6 +23,7 @@ function clearInput(){
     itemInput.value = ''
 }
 
+//Adding items to the list
 itemForm.addEventListener('submit',(e)=>{
     e.preventDefault();
     const li = document.createElement('li');
@@ -44,6 +46,8 @@ itemForm.addEventListener('submit',(e)=>{
     }
       
 })
+
+//Another way to delete 
 /*function deleteMe(item){
      if(confirm('Are you sure you want to clear the whole list ???'))
     item.parentElement.parentElement.remove();
@@ -56,6 +60,7 @@ function deleteOption(){
 }
 deleteOption() */
 
+//Deleting items with the help of event delegation 
 function deleteItem(e){
 if(e.target.parentElement.classList.contains('remove-item')){
     e.target.parentElement.parentElement.remove()
@@ -66,6 +71,8 @@ if(e.target.parentElement.classList.contains('remove-item')){
 
 itemList.addEventListener('click',deleteItem)
 
+
+//Clearing Items on the list
 function clearItems(e){
     const list = itemList.querySelectorAll('li');
     if(confirm('Are you sure you want to clear the whole list ???')){
