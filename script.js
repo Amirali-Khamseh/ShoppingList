@@ -3,12 +3,13 @@ const itemForm = document.querySelector('#item-form');
 const itemInput =  document.querySelector('#item-input');
 const itemList =  document.querySelector('#item-list');
 const itemClear =  document.querySelector('#clear');
+const itemfilter =  document.querySelector('#filter');
 
 //Checking the state of the program for displaying or hiding the filter and clear button
 function CheckUI(){
     const list = itemList.querySelectorAll('li');
     const filter = document.querySelector('#filter');
- console.log(filter)
+
     if(!list.length){
             itemClear.style.display = 'none';
             filter.style.display = 'none';
@@ -72,7 +73,7 @@ if(e.target.parentElement.classList.contains('remove-item')){
 itemList.addEventListener('click',deleteItem)
 
 
-//Clearing Items on the list
+//Clearing all  Items on the list
 function clearItems(e){
     const list = itemList.querySelectorAll('li');
     if(confirm('Are you sure you want to clear the whole list ???')){
@@ -82,3 +83,22 @@ function clearItems(e){
 
 }
 itemClear.addEventListener('click',clearItems)
+
+//Filtering
+
+function searchItem(e){
+    const itemToSearch = e.target.value.toLowerCase();
+    const list = itemList.querySelectorAll('li');
+    list.forEach((item)=>{
+        const liName = item.textContent.toLowerCase();
+        if(liName.includes(itemToSearch))
+        {
+            item.style.display='flex';
+        }else{
+            item.style.display='none';
+        }
+    })
+ 
+}
+
+itemfilter.addEventListener('input',searchItem)
