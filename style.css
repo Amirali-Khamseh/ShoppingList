@@ -111,7 +111,9 @@ header h1 {
   display: flex;
   flex-wrap: wrap;
 }
-
+.edit-mode{
+  color:grey
+}
 .items li {
   display: flex;
   justify-content: space-between;

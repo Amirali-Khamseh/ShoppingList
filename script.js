@@ -4,6 +4,8 @@ const itemInput =  document.querySelector('#item-input');
 const itemList =  document.querySelector('#item-list');
 const itemClear =  document.querySelector('#clear');
 const itemfilter =  document.querySelector('#filter');
+const formomBtn = itemForm.querySelector('button');
+let Edit = false;
 
 //Checking the state of the program for displaying or hiding the filter and clear button
 function CheckUI(){
@@ -32,10 +34,24 @@ itemForm.addEventListener('submit',(e)=>{
         alert('enter avalid Item')
         return; 
     }else{
-      addToDom();
-      addToStorage(itemInput.value);
-      clearInput();
-      CheckUI();
+     if(Edit){
+         const itemToEdit = itemList.querySelector('.edit-mode');
+         removeItemFromStrg(itemToEdit.textContent);
+         itemToEdit.classList.remove('edit-remove');
+         itemToEdit.remove();
+         Edit=false;
+        alert('Changes applied Press submit')
+        formomBtn.innerHTML = '<i class="fa-solid fa-plus"></i> Submit';
+        formomBtn.style.backgroundColor='black';
+        formomBtn.style.color='white';
+     }else{
+        addToDom();
+        addToStorage(itemInput.value);
+        clearInput();
+        CheckUI();
+     }
+
+     
     
     }
       
@@ -111,11 +127,27 @@ function deleteOption(){
 }
 deleteOption() */
 
+//Editing
+function setItemToEdit(item){
+itemList.querySelectorAll('li').forEach((item)=>item.classList.remove('edit-mode'))
+
+    Edit = true;
+    item.classList.add('edit-mode');
+    formomBtn.innerHTML = '<i class="fa-solid fa-pen"></i> Update';
+    formomBtn.style.backgroundColor='green';
+    formomBtn.style.color='white';
+
+    itemInput.value = item.textContent
+}
+
+
 //Deleting items with the help of event delegation 
 
 function onDeleteItem(e){
     if(e.target.parentElement.classList.contains('remove-item')){
         deleteItem(e.target.parentElement.parentElement)
+    }else{
+        setItemToEdit(e.target);
     }
 }
 
