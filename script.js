@@ -54,24 +54,49 @@ function addToDom(){
     itemList.appendChild(li)
 }
 
+function addToDomFromStrg(item){
+    const li = document.createElement('li');
+    li.innerText = item;
+    const button = document.createElement('button');
+    button.className ="remove-item btn-link text-red";
+    const icon = document.createElement('i');
+    icon.className = 'fa-solid fa-xmark'
+   
+    button.appendChild(icon)
+    li.appendChild(button)
+    itemList.appendChild(li)
+}
+
 // Add to Local strorage
 
 function addToStorage(item){
  //checking for the xisting values in LS
- let itemsStorage;
-  if(localStorage.getItem('items')===null){
-      itemsStorage = [];
-  }else{
-      itemsStorage = JSON.parse(localStorage.getItem('items'))
-  }
-  itemsStorage.push(item);
+ let itemsStorage = getItemsFromStorage();
   //Convert to Json string and set to local storage
+  itemsStorage.push(item);
   localStorage.setItem('items',JSON.stringify(itemsStorage))
 }
 
+//Getting items from local storage
+function getItemsFromStorage(){
+    let itemsStorage;
+    if(localStorage.getItem('items')===null){
+        itemsStorage = [];
+    }else{
+        itemsStorage = JSON.parse(localStorage.getItem('items'))
+    }
+   
+    return itemsStorage;
+}
 
+function displayItems(){
+    let itemsStorage = getItemsFromStorage();
+    itemsStorage.forEach((item)=>addToDomFromStrg(item));
+    CheckUI();
+}
 
-
+//adding an event to document itself for getting the items in storagewhenever the page is loaded
+document.addEventListener('DOMContentLoaded',displayItems);
 
 //Another way to delete 
 /*function deleteMe(item){
