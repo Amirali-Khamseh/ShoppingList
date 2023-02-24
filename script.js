@@ -112,15 +112,29 @@ function deleteOption(){
 deleteOption() */
 
 //Deleting items with the help of event delegation 
-function deleteItem(e){
-if(e.target.parentElement.classList.contains('remove-item')){
-    e.target.parentElement.parentElement.remove()
-    CheckUI()
+
+function onDeleteItem(e){
+    if(e.target.parentElement.classList.contains('remove-item')){
+        deleteItem(e.target.parentElement.parentElement)
+    }
 }
 
+function removeItemFromStrg(item){
+    let itemsStorage = getItemsFromStorage();
+    itemsStorage=itemsStorage.filter(i=>i !== item)
+    localStorage.setItem('items',JSON.stringify(itemsStorage))
 }
+function deleteItem(item){
+ if(confirm('are You sure you want to delete this item ?')){
+     item.remove();
+   
+     //removing from storage
+     removeItemFromStrg(item.textContent);
 
-itemList.addEventListener('click',deleteItem)
+     CheckUI();
+    }
+    }
+itemList.addEventListener('click',onDeleteItem)
 
 
 //Clearing all  Items on the list
@@ -128,6 +142,9 @@ function clearItems(e){
     const list = itemList.querySelectorAll('li');
     if(confirm('Are you sure you want to clear the whole list ???')){
     list.forEach((item)=>item.remove())
+    //clearibg LocalStorage
+    localStorage.removeItem('items');
+
     CheckUI()
  }
 
